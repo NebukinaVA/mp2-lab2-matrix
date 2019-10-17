@@ -2,6 +2,14 @@
 
 #include <gtest.h>
 
+TEST(TVector, can_compare_correctly) {
+	const int si = 3, size = 10;
+	TVector<int> v1(size, si), v2(size, si);
+	v1[4] = 5;
+	v2[4] = 6;
+	ASSERT_TRUE(v1 != v2);
+}
+
 TEST(TVector, can_create_vector_with_positive_length)
 {
   ASSERT_NO_THROW(TVector<int> v(5));
