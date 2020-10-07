@@ -215,6 +215,8 @@ public:
   TMatrix& operator= (const TMatrix &mt);        // присваивание
   TMatrix  operator+ (const TMatrix &mt);        // сложение
   TMatrix  operator- (const TMatrix &mt);        // вычитание
+  TMatrix  operator* (const TMatrix &mt);        // умножение матриц
+  TMatrix<ValType>  transposition();        // транспонирование
 
   // ввод / вывод
   friend istream& operator>>(istream &in, TMatrix &mt)
@@ -321,7 +323,35 @@ TMatrix<ValType> TMatrix<ValType>::operator-(const TMatrix<ValType> &mt)
 	for (int i = 0; i < TVector<TVector<ValType> >::Size; i++)
 		temp.pVector[i] = TVector<TVector<ValType> >::pVector[i] - mt.pVector[i];
 	return temp;
-} /*--------------------------------------------------s-----------------------*/
+} /*-------------------------------------------------------------------------*/
+
+
+template <class ValType> // транспонирование
+TMatrix<ValType> TMatrix<ValType>::transposition()
+{
+	TMatrix<ValType> temp(this);
+	TMatrix<ValType> result(TVector<TVector<ValType> >::Size);
+	for (int i = 0; i < TVector<TVector<ValType> >::Size; i++)
+	{
+		for (int j = 0; j < TVector<TVector<ValType> >::Size; j++)
+			result[j][i] = temp[i][j];
+	}
+	return result;
+} /*-------------------------------------------------------------------------*/
+
+template <class ValType> // умножение
+TMatrix<ValType> TMatrix<ValType>::operator*(const TMatrix<ValType> &mt)
+{
+	if (Size != mt.Size) throw "error";
+	TMatrix<ValType> temp(TVector<TVector<ValType> >::Size);
+	TMatrix<ValType> m = mt.transposition();
+	for (int i = 0; i < TVector<TVector<ValType> >::Size; i++)
+	{
+		for (int j = 0; j < TVector<TVector<ValType> >::Size; j++)
+			temp[i][j] = TVector<TVector<ValType> >::pVector[i] * m.pVector[j];
+	}
+	return temp;
+}
 
 // TVector О3 Л2 П4 С6
 // TMatrix О2 Л2 П3 С3

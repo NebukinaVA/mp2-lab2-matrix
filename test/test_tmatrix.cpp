@@ -157,3 +157,10 @@ TEST(TMatrix, cant_subtract_matrixes_with_not_equal_size)
 
 	ASSERT_ANY_THROW(m1 - m2);
 }
+
+TEST(TMatrix, can_multiply_matrixes)
+{
+	TMatrix <int> m1(20), m2(20);
+
+	ASSERT_NO_THROW(m1 * m2);
+}
